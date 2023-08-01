@@ -6,11 +6,14 @@ public class RocketController : MonoBehaviour
 {
     [SerializeField] float upForce;
     [SerializeField] float rotationSensitity;
+
+    AudioSource audioSource;
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = rb.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,6 +27,19 @@ public class RocketController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rb.AddRelativeForce(Vector3.up * upForce * Time.deltaTime);
+            // While the audioSource.Play() is called, the audio is played till its entirety.
+            // Hence if the audioSource is triggered again in the next frame, it will overlap,
+            // with the previous frames audio. Hence, we play only when the frame is not playing 
+            // the audio.
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            // Stopping the audio as soon as the space is left.
+            audioSource.Stop();
         }
     }
     void Rotate()
