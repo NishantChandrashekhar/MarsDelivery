@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RocketCollision : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class RocketCollision : MonoBehaviour
                 break;
             case "Obstacle":
                 Debug.Log("Oops, hit an obstacle!");
+                ReloadLevel();
                 break;
             case "Finish":
                 Debug.Log("Hooray! reached destination");
@@ -17,5 +19,9 @@ public class RocketCollision : MonoBehaviour
                 Debug.Log("Unknown Collision");
                 break;
         }
+    }
+    void ReloadLevel(){
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
