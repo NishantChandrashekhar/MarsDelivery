@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class RocketCollision : MonoBehaviour
 {
+    float delayToLoadScene = 1;
     void OnCollisionEnter(Collision collision){
         switch(collision.collider.tag){
             case "Friendly":
@@ -10,16 +11,24 @@ public class RocketCollision : MonoBehaviour
                 break;
             case "Obstacle":
                 Debug.Log("Oops, hit an obstacle!");
-                ReloadLevel();
+                StartCrashSequence();
                 break;
             case "Finish":
-                LoadNextLevel();
+                StartNextLevelSequence();
                 Debug.Log("Hooray! reached destination");
                 break;
             default:
                 Debug.Log("Unknown Collision");
                 break;
         }
+    }
+    void StartCrashSequence(){
+        GetComponent<RocketController>().enabled = false;
+        Invoke(nameof(ReloadLevel), delayToLoadScene);
+    }
+    void StartNextLevelSequence(){
+        GetComponent<RocketController>().enabled = false;
+        Invoke(nameof(LoadNextLevel), delayToLoadScene);
     }
     void ReloadLevel(){
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
