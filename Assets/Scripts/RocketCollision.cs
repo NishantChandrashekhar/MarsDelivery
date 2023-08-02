@@ -13,6 +13,7 @@ public class RocketCollision : MonoBehaviour
                 ReloadLevel();
                 break;
             case "Finish":
+                LoadNextLevel();
                 Debug.Log("Hooray! reached destination");
                 break;
             default:
@@ -23,5 +24,9 @@ public class RocketCollision : MonoBehaviour
     void ReloadLevel(){
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+    }
+    void LoadNextLevel(){
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(nextSceneIndex % SceneManager.sceneCountInBuildSettings);
     }
 }
