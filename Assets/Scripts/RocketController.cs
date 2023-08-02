@@ -6,6 +6,7 @@ public class RocketController : MonoBehaviour
 {
     [SerializeField] float upForce;
     [SerializeField] float rotationSensitity;
+    [SerializeField] AudioClip thrustSound;
 
     AudioSource audioSource;
     Rigidbody rb;
@@ -31,6 +32,7 @@ public class RocketController : MonoBehaviour
             // Hence if the audioSource is triggered again in the next frame, it will overlap,
             // with the previous frames audio. Hence, we play only when the frame is not playing 
             // the audio.
+            audioSource.clip = thrustSound;
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();

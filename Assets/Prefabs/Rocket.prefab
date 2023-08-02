@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upForce: 700
   rotationSensitity: 50
+  thrustSound: {fileID: 8300000, guid: 9c3b9fa6b9d3c7f4e98ae3ebff363ac9, type: 3}
 --- !u!82 &1968500039
 AudioSource:
   m_ObjectHideFlags: 0
@@ -239,3 +240,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c04f00a9fdaf64bad4875142c34dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionSound: {fileID: 8300000, guid: 8db465998c9cb03428879db7be9d1b96, type: 3}
+  finishSound: {fileID: 8300000, guid: dad2db252d4030941b0b2bf0204e3b56, type: 3}

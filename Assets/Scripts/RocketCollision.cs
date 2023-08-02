@@ -3,6 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class RocketCollision : MonoBehaviour
 {
+    [SerializeField] AudioClip collisionSound;
+    [SerializeField] AudioClip finishSound;
+
+    AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     float delayToLoadScene = 1;
     void OnCollisionEnter(Collision collision){
         switch(collision.collider.tag){
@@ -24,9 +34,13 @@ public class RocketCollision : MonoBehaviour
     }
     void StartCrashSequence(){
         GetComponent<RocketController>().enabled = false;
+        audioSource.clip = collisionSound;
+        if (!audioSource.isPlaying) { audioSource.Play(); }
         Invoke(nameof(ReloadLevel), delayToLoadScene);
     }
     void StartNextLevelSequence(){
+        audioSource.clip = finishSound;
+        if (!audioSource.isPlaying) { audioSource.Play(); }
         GetComponent<RocketController>().enabled = false;
         Invoke(nameof(LoadNextLevel), delayToLoadScene);
     }
