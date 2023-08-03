@@ -8,6 +8,8 @@ public class RocketCollision : MonoBehaviour
 
     AudioSource audioSource;
 
+    bool collided = false;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -15,6 +17,8 @@ public class RocketCollision : MonoBehaviour
 
     float delayToLoadScene = 1;
     void OnCollisionEnter(Collision collision){
+        if (collided)
+            return;
         switch(collision.collider.tag){
             case "Friendly":
                 Debug.Log("Phew, a friendly hit!");
@@ -33,12 +37,14 @@ public class RocketCollision : MonoBehaviour
         }
     }
     void StartCrashSequence(){
+        collided = true;
         GetComponent<RocketController>().enabled = false;
         audioSource.clip = collisionSound;
         if (!audioSource.isPlaying) { audioSource.Play(); }
         Invoke(nameof(ReloadLevel), delayToLoadScene);
     }
     void StartNextLevelSequence(){
+        collided = true;
         audioSource.clip = finishSound;
         if (!audioSource.isPlaying) { audioSource.Play(); }
         GetComponent<RocketController>().enabled = false;
