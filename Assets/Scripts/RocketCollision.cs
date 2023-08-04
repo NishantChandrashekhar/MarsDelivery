@@ -9,17 +9,34 @@ public class RocketCollision : MonoBehaviour
     [SerializeField] ParticleSystem finish;
 
     AudioSource audioSource;
+    float delayToLoadScene = 1;
 
     bool collided = false;
+    bool disableCollision = false;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
     }
+    void Update()
+    {
+        RespondToDebugKeys();
+    }
 
-    float delayToLoadScene = 1;
+    private void RespondToDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            disableCollision = !disableCollision;
+        }
+    }
+
     void OnCollisionEnter(Collision collision){
-        if (collided)
+        if (collided || disableCollision)
             return;
         switch(collision.collider.tag){
             case "Friendly":
