@@ -7,6 +7,9 @@ public class RocketController : MonoBehaviour
     [SerializeField] float upForce;
     [SerializeField] float rotationSensitity;
     [SerializeField] AudioClip thrustSound;
+    [SerializeField] ParticleSystem leftThruster;
+    [SerializeField] ParticleSystem rightThruster;
+    [SerializeField] ParticleSystem booster;
 
     AudioSource audioSource;
     Rigidbody rb;
@@ -37,16 +40,35 @@ public class RocketController : MonoBehaviour
             {
                 audioSource.Play();
             }
+            if(!booster.isPlaying)
+                booster.Play();
         }
         else
         {
             // Stopping the audio as soon as the space is left.
             audioSource.Stop();
+            booster.Stop();
         }
     }
     void Rotate()
     {
         float rotation = Input.GetAxis("Horizontal");
+        if(rotation > 0)
+        {
+            if(!leftThruster.isPlaying)
+                leftThruster.Play();
+            rightThruster.Stop();
+        }else if(rotation < 0)
+        {
+            leftThruster.Stop();
+            if(!rightThruster.isPlaying)
+                rightThruster.Play();
+        }
+        else
+        {
+            leftThruster.Stop();
+            rightThruster.Stop();
+        }
         rb.freezeRotation = true;
         transform.Rotate(Vector3.forward, -rotation * Time.deltaTime * rotationSensitity);
         rb.freezeRotation = false;
