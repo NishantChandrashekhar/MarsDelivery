@@ -53,15 +53,24 @@ public class RocketController : MonoBehaviour
     void Rotate()
     {
         float rotation = Input.GetAxis("Horizontal");
-        if(rotation > 0)
+        TriggerSideParticles(rotation);
+        rb.freezeRotation = true;
+        transform.Rotate(Vector3.forward, -rotation * Time.deltaTime * rotationSensitity);
+        rb.freezeRotation = false;
+    }
+
+    void TriggerSideParticles(float rotation)
+    {
+        if (rotation > 0)
         {
-            if(!leftThruster.isPlaying)
+            if (!leftThruster.isPlaying)
                 leftThruster.Play();
             rightThruster.Stop();
-        }else if(rotation < 0)
+        }
+        else if (rotation < 0)
         {
             leftThruster.Stop();
-            if(!rightThruster.isPlaying)
+            if (!rightThruster.isPlaying)
                 rightThruster.Play();
         }
         else
@@ -69,8 +78,5 @@ public class RocketController : MonoBehaviour
             leftThruster.Stop();
             rightThruster.Stop();
         }
-        rb.freezeRotation = true;
-        transform.Rotate(Vector3.forward, -rotation * Time.deltaTime * rotationSensitity);
-        rb.freezeRotation = false;
     }
 }
