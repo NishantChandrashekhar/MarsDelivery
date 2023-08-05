@@ -17,6 +17,8 @@ public class ObstacleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Mathf.Abs(period) < Mathf.Epsilon)
+            return;
         float cycles = Time.time / period;
         movementFactor = 1.0f + 0.5f * Mathf.Sin(cycles);
         Vector3 offset = movementFactor * movementVector;
